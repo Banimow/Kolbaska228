@@ -1,0 +1,41 @@
+mixin b_skladinfo(Tovar, index)
+  .expanded.row.Tovar-box(id="Tovar_" + Tovar._id)
+    .small-2.medium-2.large-2.column= Tovar.namet || "*"
+    .small-1.medium-1.large-1.column= Tovar.ntip || "*"
+    .small-2.medium-2.large-2.column= Tovar.nvir || "*"
+    .small-1.medium-1.large-1.column= Tovar.npos || "*"
+    .small-1.medium-1.large-1.column= Tovar.ncolor || "*"
+    .small-1.medium-1.large-1.column= Tovar.nlitr || "*"
+    .small-1.medium-1.large-1.column= Tovar.nzak || "*"
+    .small-1.medium-1.large-1.column= Tovar.nopt || "*"
+    .small-1.medium-1.large-1.column= Tovar.nrozd || "*"
+    .small-1.medium-1.large-1.column= Tovar.nkil || "*"
+
+mixin b_magazinfo(Marcet, index)
+  .expanded.row.Marcet-box(id="Tovar_" + Marcet._id)
+    .small-3.medium-3.large-3.column= Marcet.nfirm || "*"
+    .small-2.medium-2.large-2.column= Marcet.nmisto || "*"
+    .small-3.medium-3.large-3.column= Marcet.nstreet || "*"
+    .small-2.medium-2.large-2.column= Marcet.nhouse || "*"
+    .small-2.medium-2.large-2.column= Marcet.znizka || "*"
+
+
+mixin b_personalinfo(Torgoviy, index)
+  .expanded.row.Torgoviy-box(id="Tovar_" + Torgoviy._id)
+    .small-3.medium-3.large-3.column= Torgoviy.name.lName + " " + Torgoviy.name.fName  + " " + Torgoviy.name.mName || "*"
+    - var birth = new Date(Torgoviy.birth);
+    .small-1.medium-1.large-1.column= birth.getDate() + '.' + (birth.getMonth() + 1) + '.' + birth.getFullYear()
+    .small-1.medium-1.large-1.column= Torgoviy.idcode || "*"
+    .small-1.medium-1.large-1.column= Torgoviy.avtomobil || "*"
+    .small-2.medium-2.large-2.column= Torgoviy.work || "*"
+    .small-2.medium-2.large-2.column= Torgoviy.study || "*"
+    .small-2.medium-2.large-2.column= Torgoviy.prumitka || "*"
+
+
+mixin b_orderlist(order, index)
+  .expanded.row.order-box(id="Tovar_" + order._id)
+    .small-3.medium-3.large-3.column= order.onumber || "*"
+    .small-2.medium-2.large-2.column= order.ozamovnik || "*"
+    .small-3.medium-3.large-3.column= order.ostreet || "*"
+    .small-2.medium-2.large-2.column= order.otorg || "*"
+    .small-2.medium-2.large-2.column= order.opozich || "*"

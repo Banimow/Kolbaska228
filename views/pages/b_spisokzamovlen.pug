@@ -1,0 +1,24 @@
+extends ../layout/default
+
+block content
+
+    
+    main.expanded.row#main
+        
+           
+        .expanded.column
+            if (orders)
+                .title-row.expanded.row
+                    .small-3.medium-3.large-3.column Номер замовлення
+                    .small-2.medium-2.large-2.column Замовник
+                    .small-3.medium-3.large-3.column Адреса доставки
+                    .small-2.medium-2.large-2.column Торговий
+                    .small-2.medium-2.large-2.column Кількість позицій
+
+                hr
+                - var i = 1;
+                .orders-section
+                    each order in orders
+                        +b_skladinfo(order, i)
+                        - i++
+        .medium-4.large-3.column

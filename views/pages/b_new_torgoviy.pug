@@ -1,0 +1,56 @@
+extends ../layout/default
+
+block common
+  script.
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+      } 
+      alert('Query Variable ' + variable + ' not found');
+    }
+  script(src="javascripts/add.js")
+
+block content
+  main#main.expanded.row
+    form.large-9.large-centered.clearfix#addTorgoviyForm
+      p
+        label(for="lName") Прізвище
+        input(type="text", name="lName", placeholder="Прізвище")
+        label(for="fName") Iм'я
+        input(type="text", name="fName", placeholder="Ім'я")
+        label(for="mName") По батькові
+        input(type="text", name="mName", placeholder="По батькові")
+      p
+        label(for="birth") Дата народження
+        input(type="date", name="birth")#birth
+     
+      p
+        label(for="idcode") ID - code
+        input(type="number", name="idcode", placeholder="ID - code")
+    
+      p
+        fieldset#avtomobil
+          legend Наявність автомобіля:
+            p
+              input(type="radio", name="avtomobil" value="yes", checked)#confirm_avtomobil
+              label(for="confirm_avtomobil") Так
+              input(type="radio", name="avtomobil", value="no", checked)#cancel_avtomobil
+              label(for="cancel_avtomobil") Ні
+      p
+        label(for="work") Попереднє місце роботи
+        input(type="text", name="work", placeholder="компанія:___; адреса:___; ...")#work
+      p
+        label(for="study") Отримана освіта
+        input(type="text", name="study", placeholder="Навчальний заклад:___; стан:___; досягнення:___; ...")#study
+
+      p
+        label(for="prumitka") Примітка
+        input(type="text", name="prumitka", placeholder="Примітка")
+
+      p
+        button.button.success.float-right(type="submit") Оформити нового торгового

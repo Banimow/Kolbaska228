@@ -1,0 +1,36 @@
+extends ../layout/default
+    
+block common
+    script(src="javascripts/add.js")
+    
+block content
+  main#main.expanded.row
+    form.large-9.large-centered.clearfix#addZamovleniaForm
+      p.expanded
+        label.maglabel Магазин замовник
+          select
+            each marcet in Marcets
+              option(value=marcet._id)=marcet.nfirm + " (" + marcet.nmisto + ", вул. " + marcet.nstreet + ")"
+      
+      p.expanded.tlist
+        label.labellist.hidden Товар
+          select
+            each tovar in Tovari
+              option(value=tovar._id)=tovar.namet + " (тип:" + tovar.ntip + ", кол." + tovar.ncolor  + ", " + tovar.nlitr + "л.)"
+          label Введіть кількість
+          input.inputlist(type="number", name="lista", placeholder="Введіть кількість")
+          button.buttonlist.button Підтвердити
+        button.knopka.button.warning(type="submit") Додати позицію
+
+      ul.spt 
+      
+      p.expanded
+        label.torglist Торговий
+          select
+            each torg in Personal
+              option(value=torg._id)=torg.name.fName + " " + torg.name.mName + " " + torg.name.lName
+
+
+
+
+      input.button.success.float-right(type="submit", value="Cтворити нове замовлення")

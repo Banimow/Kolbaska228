@@ -1,0 +1,26 @@
+extends ../layout/default
+
+block content
+
+    
+    main.expanded.row#main
+        a.expanded.button.create-post-btn(type="button", href="/b_new_torgoviy?add=true", target="_blank") Додати нового торгового           
+        .expanded.column
+            if (Personal)
+                .title-row.expanded.row
+                    .small-3.medium-3.large-3.column ФІО
+                    .small-1.medium-1.large-1.column Дата народження
+                    .small-1.medium-1.large-1.column ID - code
+                    .small-1.medium-1.large-1.column Авто
+                    .small-2.medium-2.large-2.column Попередня робота
+                    .small-2.medium-2.large-2.column Освіта
+                    .small-2.medium-2.large-2.column Примітки
+                hr
+                - var i = 1;
+                .Mercet-section
+                    each Torgoviy in Personal
+                        +b_personalinfo(Torgoviy, i)
+                        - i++
+        .medium-4.large-3.column
+            //if (Personal)
+              //  +residentsFilter()

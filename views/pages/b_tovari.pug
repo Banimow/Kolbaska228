@@ -1,0 +1,46 @@
+extends ../layout/default
+    
+block common
+    script(src="javascripts/add.js")
+    
+block content
+  main#main.expanded.row
+    form.large-9.large-centered.clearfix#addTovarForm
+      label(for="namet") Назва товару
+      input(type="text", name="namet", placeholder="Назва товару")
+      
+
+      fieldset#ntip
+          legend Вид товару:
+              input(type="radio", name="ntip" value="PET", checked)#confirm_PET
+              label(for="confirm_PET") ПЕТ
+              input(type="radio", name="ntip", value="PNT", checked)#cancel_PNT
+              label(for="cancel_PNT") ПНТ
+              input(type="radio", name="ntip" value="BOCH", checked)#confirm_BOCH
+              label(for="confirm_BOCH") Бочка
+              input(type="radio", name="ntip", value="CIS", checked)#cancel_CIS
+              label(for="cancel_CIS") Цистерна
+              input(type="radio", name="ntip", value="BID", checked)#cancel_BID
+              label(for="cancel_BID") Бідон
+
+      label(for="nvir") Виробник
+      input(type="text", name="nvir", placeholder="Виробник")
+      label(for="npos") Постачальник
+      input(type="text", name="npos", placeholder="Постачальник")
+      label(for="ncolor") Колір
+      input(type="text", name="ncolor", placeholder="Колір")
+      label(for="nlitr") Літраж
+      input(type="number", name="nlitr", placeholder="Літраж",step="0.01")
+      label(for="nzak") Закупівельна ціна
+      input(type="number", name="nzak", placeholder="Закупівельна ціна",step="0.01")
+      label(for="nopt") Оптова ціна
+      input(type="number", name="nopt", placeholder="Оптова ціна",step="0.01")
+      label(for="nrozd") Роздрібна ціна
+      input(type="number", name="nrozd", placeholder="Роздрібна ціна",step="0.01")
+      label(for="nkil") Кількість товару
+      input(type="number", name="nkil", placeholder="Кількість товару")
+
+
+
+
+      input.button.success.float-right(type="submit", value="Додати новий товар")

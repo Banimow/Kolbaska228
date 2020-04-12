@@ -1,0 +1,6 @@
+aside.large-3.column.show-for-large#posts-navigation
+  h2 Останні замовлення
+  ul.news-list
+    each zamovlenia in hotOrders
+      a(href="/post?id=" + zamovlenia._id)
+        li= 'Замовлення #' + zamovlenia.number

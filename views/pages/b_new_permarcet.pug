@@ -1,0 +1,20 @@
+extends ../layout/default
+    
+block common
+    script(src="javascripts/add.js")
+    
+block content
+  main#main.expanded.row
+    form.large-9.large-centered.clearfix#addMarcetForm
+      label(for="nfirm") Назва фірми
+      input(type="text", name="nfirm", placeholder="Назва фірми")#last_settlement_input
+      label(for="nmisto") Населений пунт
+      input(type="text", name="nmisto", placeholder="Населений пунт")#last_street_input
+      label(for="nstreet") Вулиця
+      input(type="text", name="nstreet", placeholder="Вулиця")#last_number_h_input
+      label(for="nhouse") Номер будинку
+      input(type="number", name="nhouse", placeholder="Номер будинку")#last_area_h_input
+      label(for="znizka") Максимальний відсоток знижки
+      input(type="number", name="znizka", placeholder="Максимальний відсоток знижки")#last_area_b_input
+      
+      input.button.success.float-right(type="submit", value="Оформити новий магазин")

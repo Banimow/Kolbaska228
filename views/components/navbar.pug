@@ -1,0 +1,22 @@
+ul.menu 
+  li
+      a(href="/feed") Головна 
+  li
+    a(href="/city") Оголошення
+  li
+    a(href="/b_zamovlenia") Створити замовлення
+  li
+    a(href="/b_sklad") Склад
+  li
+    a(href="/culture") Акції
+  if (admin)
+    li
+      a(nohref)="|"
+    li
+      a(href="/b_pryxid") Прихід
+    li
+      a(href="/b_marcet") Магазини
+    li
+      a(href="/b_personal") Торгові агенти
+  
+      

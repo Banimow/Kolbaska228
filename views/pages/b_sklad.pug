@@ -1,0 +1,30 @@
+extends ../layout/default
+
+block content
+
+    
+    main.expanded.row#main
+        
+           
+        .expanded.column
+            if (Tovari)
+                .title-row.expanded.row
+                    .small-2.medium-2.large-2.column Назва товару
+                    .small-1.medium-1.large-1.column Тип
+                    .small-2.medium-2.large-2.column Виробник
+                    .small-1.medium-1.large-1.column Постачальник
+                    .small-1.medium-1.large-1.column Колір
+                    .small-1.medium-1.large-1.column Літраж
+                    .small-1.medium-1.large-1.column Закупівельна ціна
+                    .small-1.medium-1.large-1.column Оптова ціна
+                    .small-1.medium-1.large-1.column Роздрібна ціна
+                    .small-1.medium-1.large-1.column Кількість товару
+                hr
+                - var i = 1;
+                .Tovari-section
+                    each Tovar in Tovari
+                        +b_skladinfo(Tovar, i)
+                        - i++
+        .medium-4.large-3.column
+            //if (Tovari)
+              //  +residentsFilter()
