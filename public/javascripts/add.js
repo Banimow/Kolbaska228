@@ -2,6 +2,35 @@ $('#editResidentForm').submit(function(e) {
     e.preventDefault();
 });
 
+$('#searchmarcetForm').submit(function(e) {
+    e.preventDefault();
+    var $form = $('#searchmarcetForm'), // береш форму
+        formData = new FormData(),
+        data = $form.serializeArray(); // вибираєш з неї данні
+        
+    data.forEach(function(element, index) {
+        formData.append(element.name, element.value); // додаєш їх для відправки з більш крутого типу (тут і файли можна закидати і додаткові - свої змінні)
+    });
+     $.ajax({ // відправляєш на сервак                     
+        url: '/marcetfiler', // урл
+        method: 'POST', // метод відправки
+        dataType: 'json', // тип кодування для сервака
+        contentType: false, // для фоток
+        processData: false, // тож для фоток
+        data: formData, // данні що відправляєш
+        beforeSend: function() { // до відправки що робити
+            $('button[type="submit"]', $form).addClass('disabled'); 
+        },
+        success: function(data) { // у разі відповіді від сервака ( приймає калбек )
+            console.log('success send to the server');
+        },
+        complete: function() { // коли успішно завершено
+            $('button[type="submit"]', $form).removeClass('disabled');
+            window.location.reload(false); // перезагрузка сторінки
+        }
+    });
+});
+
 function editInfo(form, residentId) { // правка інфи про користувача
     var $form = form, // береш форму
         formData = new FormData(),
@@ -131,22 +160,6 @@ $("#addZamovleniaForm").on("submit",function(e) {
     });
 
    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

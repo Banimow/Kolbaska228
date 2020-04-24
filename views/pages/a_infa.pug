@@ -1,0 +1,22 @@
+extends ../layout/default
+
+block content
+    
+    main.expanded.row#main
+                   
+        .expanded.column
+            if (Infozam)
+                .title-row.expanded.row
+                    p= "Номер замовлення:" 
+                    p= "№: " + Infozam.number 
+                    p= "Замовник:"
+                    p= Infozam.tochka.nfirm + ", " + Infozam.tochka.nmisto + ", " + Infozam.tochka.nstreet + ", " + Infozam.tochka.nhouse
+                    p= "Перелік замовленого товару:"
+                    p
+                        ul
+                            each produst in Infozam.masivtov
+                                li= "Назва: " + produst.namet + " Тип: " + produst.ntip + " Колір: " + produst.ncolor + " Літраж: " + produst.nlitr + " Ціна: " + produst.nrozd + " Кількість: " + produst.kilka
+                    p= "Торговий агент:"
+                    p= "ФIO: " + Infozam.torgo.name.fName + " " + Infozam.torgo.name.mName + " " + Infozam.torgo.name.lName
+
+

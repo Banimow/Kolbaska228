@@ -1,5 +1,7 @@
 extends ../layout/default
 
+
+
 mixin newsBlock(news)
   .news-container
     .news-preview
@@ -10,7 +12,8 @@ mixin newsBlock(news)
         a(href="/post?id=" + news._id)
           h4= news.title
       .news-description__text
-        p= news.text
+        p= parseText(news.text)
+
       .news-description__meta
         .author
           span= 'Root'
@@ -18,10 +21,17 @@ mixin newsBlock(news)
           span= new Date(news.created).getDate() + '.' + (new Date(news.created).getMonth() + 1) + '.' + new Date(news.created).getFullYear()
 
 block content
+  -
+    function parseText(text) {
+        return text.split(new RegExp('&&-img_[0-9]-&&', 'g')).join(' ');
+
+    }
   main#main.row
+
     each news in mainNews
       section.columns.small-12.medium-4.large-3
         +newsBlock(news)
+
     -
       var goToPage = function(page_number) {
         return '/' + tagPageName + '?page=' + page_number;

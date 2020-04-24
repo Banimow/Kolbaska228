@@ -1,3 +1,67 @@
+$('#searchmarcetForm').submit(function(e) {
+    e.preventDefault();
+    
+    let data = $('#searchmarcetForm').serializeArray(); // вибираєш з неї данні
+    let zminaa = {}; 
+    
+    data.forEach(function(element, index) {
+        if (element.value != "") {
+            zminaa[element.name] = element.value;
+        }
+    });
+
+    fetch('/marcetfiler', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(zminaa)
+    }).then(result => {
+        return result.json();
+    }).then(magazina=> {
+    document.querySelector(".Mercet-section").innerHTML = '';
+    magazina.forEach(function(magaz){
+        document.querySelector(".Mercet-section").innerHTML += `<div class="expanded row Marcet-box" id="Tovar_${magaz._id}"><div class="small-3 medium-3 large-3 column">${magaz.nfirm}</div><div class="small-2 medium-2 large-2 column">${magaz.nmisto}</div><div class="small-3 medium-3 large-3 column">${magaz.nstreet}</div><div class="small-2 medium-2 large-2 column">${magaz.nhouse}</div><div class="small-2 medium-2 large-2 column">${magaz.znizka}</div></div>`;
+    })
+
+    });
+});
+
+$('#searchskladForm').submit(function(e) {
+    e.preventDefault();
+    
+    let data = $('#searchskladForm').serializeArray(); // вибираєш з неї данні
+    let zmin = {}; 
+    
+    data.forEach(function(element, index) {
+        if (element.value != "") {
+            zmin[element.name] = element.value;
+        }
+    });
+
+    fetch('/ckladfiler', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(zmin)
+    }).then(result => {
+        return result.json();
+    }).then(skladitovari=> {
+    document.querySelector(".Tovari-section").innerHTML = '';
+    skladitovari.forEach(function(skladitov){
+      document.querySelector(".Tovari-section").innerHTML += `<div class="expanded row Tovar-box" id="Tovar_${skladitov._id}"><div class="small-2 medium-2 large-2 column">${skladitov.namet}</div><div class="small-1 medium-1 large-1 column">${skladitov.ntip}</div><div class="small-2 medium-2 large-2 column">${skladitov.nvir}</div><div class="small-1 medium-1 large-1 column">${skladitov.npos}</div><div class="small-1 medium-1 large-1 column">${skladitov.ncolor}</div><div class="small-1 medium-1 large-1 column">${skladitov.nlitr}</div><div class="small-1 medium-1 large-1 column">${skladitov.nzak}</div><div class="small-1 medium-1 large-1 column">${skladitov.nopt}</div><div class="small-1 medium-1 large-1 column">${skladitov.nrozd}</div>`;
+    })
+
+    });
+});
+
+
+
+
+
+
+
 $(document).ready(function() {
   var $_main_menu = $('#header .top-bar');
   var $_menu_container = $_main_menu.parent();
@@ -310,3 +374,4 @@ function addLinkInput(element) {
 function getFuncParams(element, attribute) {
     return element.attr(attribute).split('(')[1].split(')')[0];
 }
+

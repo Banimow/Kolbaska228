@@ -203,8 +203,51 @@ module.exports = function(app) {
 
 
 
+app.post('/marcetfiler', async function(req,res,next) {
 
+    let {nfirm, nmisto, nstreet, nhouse, znizkaFrom, znizkaTo} = req.body;
+    let query = {
+      znizka: { $gte: +znizkaFrom, $lte: +znizkaTo },
+      nfirm: req.body.nfirm,
+      nmisto: req.body.nmisto,
+      nstreet: req.body.nstreet,
+      nhouse: req.body.nhouse,
+    };
+    for (let key in query) {
+      if (!query[key]) {
+        delete query[key];
+      }
+    }
+    let magazin = await Marcet.find(query);
 
+    res.send(magazin);
+})
+
+app.post('/ckladfiler', async function(req,res,next) {
+
+    let {namet, ntip, nvir, npos, ncolor, nlitr, nzak, nopt, nrozd} = req.body;
+    let query = {
+      namet: req.body.namet,
+      ntip: req.body.ntip,
+      nvir: req.body.nvir,
+      npos: req.body.npos,
+      ncolor: req.body.ncolor,
+      nlitr: req.body.nlitr,
+      nzak: req.body.nzak,
+      nopt: req.body.nopt,
+      nrozd: req.body.nrozd,
+    };
+ //   console.log("____",req.body);
+    for (let key in query) {
+      if (!query[key]) {
+        delete query[key];
+      }
+    }
+    let ckladik = await Tovar.find(query);
+   // console.log("GGGGGGGGGGGGGGG",ckladik);
+    res.send(ckladik);
+
+})
 
 app.post('/b_tovari', function(req,res,next) {
       console.log(req.query,req.body)
@@ -233,7 +276,7 @@ app.post('/b_tovari', function(req,res,next) {
 
 app.post('/b_zamovlenia', function(req,res,next) {
       console.log(req.query,req.body)
-      const masivv = req.body.masivtov.map(el => ({ tivaID: el.id, count: el.count }));
+      const masivv = req.body.masivtov.map(el => ({ tovaID: el.id, count: el.count }));
 
       Zamovlenia.createZamovlenia(new Zamovlenia({
             tochka: req.body.tochka,
@@ -272,25 +315,65 @@ app.post('/b_zamovlenia', function(req,res,next) {
         .sort({ $natural: -1 })
         .limit(16);
 
+     //  const Marcets = await Marcet.find({});
+      //  const zamovlenia = await Zamovlenia.find({})
+      //  .sort({ $natural: -1 })
+      //  .limit(50);
+      //  const Personal = await Torgoviy.find({})
+    const zminazam = await Zamovlenia.find({})
+    const torgov = await Torgoviy.find({ _id: { $in: zminazam.map(el => el.torgo) } });
+    const tochkaz = await Marcet.find({ _id: { $in: zminazam.map(el => el.tochka) } });
+    
+    let products = [];
+    let torgoviagent = [];
+    let magalinu = [];
+    let zamovlen = [];
 
+    let tovari = zminazam.map(e => e.masivtov.map(yyy => yyy["tovaID"]));
 
-      res.render('pages/frontpage', {
-          admin: req.session.admin,
-          hotOrders: hotOrders, 
-          mainPosts: hotnews,
-          smallPosts: [],
-          postsPagesCount: 0
+    for (let i = 0; i < tovari.length; i++) {
+      products.push(await Tovar.find({ _id: { $in: tovari[i] } }));
+    }
+
+    zminazam.forEach((zam,index) => {
+      torgoviagent.push (torgov[torgov.findIndex(t => t._id.toString() == zam.torgo.toString())]);
+    });
+    zminazam.forEach(zam => {
+      magalinu.push (tochkaz[tochkaz.findIndex(t => t._id.toString() == zam.tochka.toString())]);
+    });
+    //console.log ("magaz",magalinu);
+    //console.log ("TORGOVIY",torgoviagent);
+
+    for (let i = 0; i < zminazam.length; i++) {
+      zamovlen.push({
+        number: zminazam[i].number,
+        _id: zminazam[i]._id,
+        tochka: magalinu[i],
+        masivtov: products[i],
+        torgo: torgoviagent[i],
       });
+    }
+
+//      console.log(zamovlen);
+
+       res.render('pages/frontpage', {
+           admin: req.session.admin,
+           hotOrders: hotOrders, 
+           orders: zamovlen,
+ 
+           postsPagesCount: 0
+       });
     });
 
     app.get('/city', function(req, res) {
-      getNews('city', function(posts, pagesCount) {
+      getNews('ogolochenia', function(posts, pagesCount) {
+        //console.log(posts);
         res.render('pages/news', {
           admin: req.session.admin,
           mainNews: posts,
           postsPagesCount: pagesCount,
           currentPage: req.query.page,
-          tagPageName: 'city'
+          tagPageName: 'ogolochenia'
         });
       }, {
         limit: 16,
@@ -329,13 +412,13 @@ app.post('/b_zamovlenia', function(req,res,next) {
     });
 
     app.get('/culture', function(req, res) {
-      getNews('culture', function(posts, pagesCount) {
+      getNews('aktsia', function(posts, pagesCount) {
         res.render('pages/news', {
           admin: req.session.admin,
           mainNews: posts,
           postsPagesCount: pagesCount,
           currentPage: req.query.page,
-          tagPageName: 'culture'
+          tagPageName: 'aktsia'
         });
       }, {
         limit: 16,
@@ -963,25 +1046,68 @@ app.post('/b_zamovlenia', function(req,res,next) {
       //  .sort({ $natural: -1 })
       //  .limit(50);
       //  const Personal = await Torgoviy.find({})
-     const siski = await Zamovlenia.find({}).forEach(zakaz => {
-          return Object.assign({
-          torg: await Torgoviy.findById(zakaz.torg)._id
-              }, zakaz);
-      })
-                  
-        console.log (testzmina);
-       
+    const zminazam = await Zamovlenia.find({})
+    const torgov = await Torgoviy.find({ _id: { $in: zminazam.map(el => el.torgo) } });
+    const tochkaz = await Marcet.find({ _id: { $in: zminazam.map(el => el.tochka) } });
 
-      //  let spisok = zakazi.map(zakaz => {});
+    zminazam.forEach(zam => {
+      zam.torgo = torgov[torgov.findIndex(t => t._id == zam.torgo)];
+    });
 
-      //  res.render('pages/b_spisokzamovlen', {
-      //    admin: req.session.admin, 
-      //    Marcets: Marcets, 
-          
-      //    Personal: Personal
-      //  });
+    zminazam.forEach(zam => {
+      zam.tochka = tochkaz[tochkaz.findIndex(t => t._id == zam.tochka)];
+    });
+
+  //  console.log (zminazam);
+
+    res.render('pages/b_spisokzamovlen', {
+     admin: req.session.admin,
+     orders: zminazam, 
+    });
 
     });
+
+
+
+
+
+
+
+
+app.get('/orderfarm', async (req, res) => {
+      var current_page = req.query.page || 1;
+
+     
+
+    const zminazam = await Zamovlenia.findById(req.query.id);
+    const torgov = await Torgoviy.findById(zminazam.torgo);
+    const products = await Tovar.find({ _id: {$in: zminazam.masivtov.map(e => e.tovaID)} });  
+    const tochkaz = await Marcet.findById(zminazam.tochka);
+    
+    const secret = {
+        number: zminazam.number,
+        tochka: tochkaz,
+        masivtov: products.map((e,index)=>{return Object.assign({kilka: zminazam.masivtov[index].count},e._doc)}),
+        torgo: torgov
+      };
+    //console.log(products.map((e,index)=>{return Object.assign({kilka: zminazam.masivtov[index].count},e._doc)}));
+
+    //console.log(products.map((e, index) => Object.assign({}, {text: "sometext"}, {message: "somemessage"}, e)));
+       res.render('pages/a_infa', {
+           admin: req.session.admin,
+           Infozam: secret,
+ 
+           postsPagesCount: 0
+
+       });
+    });
+
+
+
+
+
+
+
 
 
 }

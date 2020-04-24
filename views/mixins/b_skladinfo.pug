@@ -33,9 +33,13 @@ mixin b_personalinfo(Torgoviy, index)
 
 
 mixin b_orderlist(order, index)
-  .expanded.row.order-box(id="Tovar_" + order._id)
-    .small-3.medium-3.large-3.column= order.onumber || "*"
-    .small-2.medium-2.large-2.column= order.ozamovnik || "*"
-    .small-3.medium-3.large-3.column= order.ostreet || "*"
-    .small-2.medium-2.large-2.column= order.otorg || "*"
-    .small-2.medium-2.large-2.column= order.opozich || "*"
+  a.expanded.row.order-box(href="/orderfarm?id=" + order._id, id="Tovar_" + order._id)
+    .small-3.medium-3.large-3.column= order.number || "*"
+    .small-3.medium-3.large-3.column= order.tochka.nfirm || "*"
+
+    .small-3.medium-3.large-3.column
+        ul
+            each tov in order.masivtov
+                li= tov.namet
+    .small-3.medium-3.large-3.column= order.torgo.name.lName || "*"
+
