@@ -1,14 +1,3 @@
-/*
-1.ПІП
-2.Дата народження
-3.Особовий ID
-4.Наявність автомобіля
-5.Попереднє місце роботи
-6.Отримана освіта 
-7.Примітки
-
-*/
-
 var {mongoose} = require('../libs/mongoose');
 
 var TorgoviySchema = mongoose.Schema({

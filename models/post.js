@@ -13,12 +13,12 @@ var PostSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    preview: String, // path to preview background image,
+    preview: String, 
     size: {
-        type: String, // small, normal, large, expanded
+        type: String, 
         required: true
     },
-    imagesIndexes: [{type: String}], // for description
+    imagesIndexes: [{type: String}], 
     photos: [{type: String}],
     links: [{type: String}],
     authors: [{type: String}],

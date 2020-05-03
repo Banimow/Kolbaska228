@@ -4,67 +4,67 @@ $('#editResidentForm').submit(function(e) {
 
 $('#searchmarcetForm').submit(function(e) {
     e.preventDefault();
-    var $form = $('#searchmarcetForm'), // береш форму
+    var $form = $('#searchmarcetForm'), 
         formData = new FormData(),
-        data = $form.serializeArray(); // вибираєш з неї данні
+        data = $form.serializeArray(); 
         
     data.forEach(function(element, index) {
-        formData.append(element.name, element.value); // додаєш їх для відправки з більш крутого типу (тут і файли можна закидати і додаткові - свої змінні)
+        formData.append(element.name, element.value); 
     });
-     $.ajax({ // відправляєш на сервак                     
-        url: '/marcetfiler', // урл
-        method: 'POST', // метод відправки
-        dataType: 'json', // тип кодування для сервака
-        contentType: false, // для фоток
-        processData: false, // тож для фоток
-        data: formData, // данні що відправляєш
-        beforeSend: function() { // до відправки що робити
+     $.ajax({                      
+        url: '/marcetfiler', 
+        method: 'POST', 
+        dataType: 'json', 
+        contentType: false, 
+        processData: false, 
+        data: formData, 
+        beforeSend: function() { 
             $('button[type="submit"]', $form).addClass('disabled'); 
         },
-        success: function(data) { // у разі відповіді від сервака ( приймає калбек )
+        success: function(data) { 
             console.log('success send to the server');
         },
-        complete: function() { // коли успішно завершено
+        complete: function() { 
             $('button[type="submit"]', $form).removeClass('disabled');
-            window.location.reload(false); // перезагрузка сторінки
+            window.location.reload(false); 
         }
     });
 });
 
-function editInfo(form, residentId) { // правка інфи про користувача
-    var $form = form, // береш форму
+function editInfo(form, residentId) {
+    var $form = form, 
         formData = new FormData(),
-        data = $form.serializeArray(); // вибираєш з неї данні
+        data = $form.serializeArray(); 
         
     data.forEach(function(element, index) {
-        formData.append(element.name, element.value); // додаєш їх для відправки з більш крутого типу (тут і файли можна закидати і додаткові - свої змінні)
+        formData.append(element.name, element.value); 
     });
         
-    formData.append('residentId', residentId); // додаєш айдішник користувача
+    formData.append('residentId', residentId); 
     
-    formData.append('picture', $('#picture_upload')[0].files[0]); // додаєш його картиночку
+    formData.append('picture', $('#picture_upload')[0].files[0]); 
         
-    $.ajax({ // відправляєш на сервак                     
-        url: '/editResident', // урл
-        method: 'POST', // метод відправки
-        dataType: 'json', // тип кодування для сервака
-        contentType: false, // для фоток
-        processData: false, // тож для фоток
-        data: formData, // данні що відправляєш
-        beforeSend: function() { // до відправки що робити
+    $.ajax({                     
+        url: '/editResident', 
+        method: 'POST', 
+        dataType: 'json', 
+        contentType: false, 
+        processData: false, 
+        data: formData, 
+        beforeSend: function() { 
             $('button[type="submit"]', $form).addClass('disabled'); 
         },
-        success: function(data) { // у разі відповіді від сервака ( приймає калбек )
+        success: function(data) { 
             console.log('success send to the server');
         },
-        complete: function() { // коли успішно завершено
+        complete: function() { 
             $('button[type="submit"]', $form).removeClass('disabled');
-            window.location.reload(false); // перезагрузка сторінки
+            window.location.reload(false); 
         }
     });
-}    //спасибі звісно але мені так в загальному що функції роблять і все
+}    
 
-$('#addResidentForm').submit(function(e) { // заборона стандартної відправки форми
+$('#addResidentForm').submit(function(e) { 
     e.preventDefault();
 });
 
@@ -160,14 +160,6 @@ $("#addZamovleniaForm").on("submit",function(e) {
     });
 
    });
-
-
-
-
-
-
-
-
 
 $("#addPryxidForm").on("submit",function(e) {
     e.preventDefault()
